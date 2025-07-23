@@ -25,12 +25,14 @@ const AdminPanel: React.FC = () => {
     image: '',
   });
 
+  // Verificar token y rol de admin
   useEffect(() => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     if (!token || role !== 'admin') navigate('/');
-  }, []);
+  }, [navigate]);
 
+  // Obtener productos del backend
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -44,12 +46,14 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  // Abrir modal para agregar producto
   const openModalToAdd = () => {
     setEditingProduct(null);
     setFormState({ name: '', description: '', price: 0, image: '' });
     setShowModal(true);
   };
 
+  // Abrir modal para editar producto
   const openModalToEdit = (product: Product) => {
     setEditingProduct(product);
     setFormState({
@@ -61,10 +65,11 @@ const AdminPanel: React.FC = () => {
     setShowModal(true);
   };
 
+  // Guardar nuevo producto o actualizar existente
   const handleSave = async () => {
     try {
       if (editingProduct) {
-        // Editar producto existente
+        // Editar producto
         const updated = await API.put(`/products/${editingProduct.id}`, formState);
         setProducts((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated.data : p))
@@ -81,6 +86,7 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  // Eliminar producto
   const handleDeleteProduct = async (id: number) => {
     try {
       await API.delete(`/products/${id}`);
@@ -138,6 +144,7 @@ const AdminPanel: React.FC = () => {
         </tbody>
       </Table>
 
+      {/* Modal para agregar/editar productos */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingProduct ? 'Editar Producto' : 'Agregar Nuevo Producto'}</Modal.Title>
