@@ -64,13 +64,13 @@ const AdminPanel: React.FC = () => {
   const handleSave = async () => {
     try {
       if (editingProduct) {
-        // Editar
+        // Editar producto existente
         const updated = await API.put(`/products/${editingProduct.id}`, formState);
         setProducts((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated.data : p))
         );
       } else {
-        // Crear
+        // Crear nuevo producto
         const created = await API.post('/products', formState);
         setProducts((prev) => [...prev, created.data]);
       }

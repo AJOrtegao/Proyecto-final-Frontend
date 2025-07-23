@@ -11,14 +11,12 @@ interface Product {
 }
 
 interface ProductosProps {
-  products?: Product[] | null; 
+  products?: Product[] | null;
   addToCart: (product: Product) => void;
 }
 
-
-
 const Productos: React.FC<ProductosProps> = ({ products, addToCart }) => {
-  const displayProducts = Array.isArray(products) && products.length > 0 ? products : /*sampleProducts*/;
+  const displayProducts = Array.isArray(products) && products.length > 0 ? products : [];
 
   return (
     <Container className="mt-5">
@@ -58,4 +56,3 @@ const Productos: React.FC<ProductosProps> = ({ products, addToCart }) => {
 };
 
 export default Productos;
-
