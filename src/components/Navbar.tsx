@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/user.slice';
+import logo from './assets/images/logo-farmathony.png'; 
 
 export default function NavigationBar() {
   const [role, setRole] = useState<string | null>(null);
@@ -27,11 +28,9 @@ export default function NavigationBar() {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <NavLink
-          to="/"
-          className={({ isActive }) => isActive ? 'navbar-brand active' : 'navbar-brand'}
-        >
-          {process.env.REACT_APP_APP_NAME || 'FarmaThony'}
+        <NavLink to="/" className={({ isActive }) => isActive ? 'navbar-brand active' : 'navbar-brand'}>
+          <img src={logo} alt="FarmaThony Logo" style={{ width: '50px', marginRight: '10px' }} />
+          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>Farmathony</span>
           <br />
           <small>Tu farmacia online</small>
         </NavLink>

@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState<any[]>([]); // Replace with actual product data
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
   return (
     <div style={styles.page}>
       <div style={styles.hero}>
@@ -11,6 +20,13 @@ const Home: React.FC = () => {
           <p style={styles.subtitle}>
             Tu farmacia online de confianza. Compra segura, rápida y con productos de calidad garantizada.
           </p>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Buscar productos"
+            style={{ padding: '8px', width: '100%' }}
+          />
           <Link to="/productos">
             <Button variant="light" style={styles.cta}>Ver Productos</Button>
           </Link>
@@ -20,12 +36,12 @@ const Home: React.FC = () => {
       <Container className="mt-5">
         <h2 className="text-center mb-4">¿Por qué elegirnos?</h2>
         <Row>
-          {features.map((feature, index) => (
+          {filteredProducts.map((product, index) => (
             <Col key={index} md={4} className="mb-4">
               <Card style={styles.card}>
                 <Card.Body>
-                  <Card.Title>{feature.icon} {feature.title}</Card.Title>
-                  <Card.Text>{feature.description}</Card.Text>
+                  <Card.Title>{product.name}</Card.Title>
+                  <Card.Text>{product.description}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -73,23 +89,5 @@ const styles = {
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
   },
 };
-
-const features = [
-  {
-    icon: '🚚',
-    title: 'Envío rápido',
-    description: 'Recibe tus productos en menos de 48 horas a cualquier parte del país.',
-  },
-  {
-    icon: '🛡️',
-    title: 'Compra segura',
-    description: 'Tus datos están protegidos y tu compra garantizada con métodos seguros.',
-  },
-  {
-    icon: '🧾',
-    title: 'Facturación inmediata',
-    description: 'Generamos tu factura electrónica automáticamente tras tu compra.',
-  },
-];
 
 export default Home;

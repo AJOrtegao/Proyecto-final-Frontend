@@ -10,8 +10,8 @@ const Checkout: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !address) {
-      alert('Por favor, completa todos los campos.');
+    if (!name || !address || !paymentMethod) {
+      alert('Por favor, completa todos los campos y selecciona un método de pago.');
       return;
     }
 
