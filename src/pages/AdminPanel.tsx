@@ -58,7 +58,7 @@ const AdminPanel: React.FC = () => {
       setProducts(response.data.length ? response.data : fallbackProducts);
     } catch (error) {
       console.error('Error al obtener productos:', error);
-      setProducts(fallbackProducts); // fallback si falla la API
+      setProducts(fallbackProducts); 
     }
   };
 
