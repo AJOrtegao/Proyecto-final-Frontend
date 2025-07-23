@@ -11,23 +11,6 @@ interface Product {
   image: string;
 }
 
-const fallbackProducts: Product[] = [
-  {
-    id: 1,
-    name: 'Paracetamol 500mg',
-    description: 'Alivia el dolor y reduce la fiebre.',
-    price: 2.5,
-    image: 'https://via.placeholder.com/100x80.png?text=Paracetamol',
-  },
-  {
-    id: 2,
-    name: 'Jarabe para la tos',
-    description: 'Jarabe expectorante con miel y eucalipto.',
-    price: 5.0,
-    image: 'https://via.placeholder.com/100x80.png?text=Jarabe',
-  },
-];
-
 const AdminPanel: React.FC = () => {
   const navigate = useNavigate();
 
@@ -55,10 +38,9 @@ const AdminPanel: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const response = await API.get('/products');
-      setProducts(response.data.length ? response.data : fallbackProducts);
+      setProducts(response.data);
     } catch (error) {
       console.error('Error al obtener productos:', error);
-      setProducts(fallbackProducts); 
     }
   };
 
@@ -82,11 +64,13 @@ const AdminPanel: React.FC = () => {
   const handleSave = async () => {
     try {
       if (editingProduct) {
+        // Editar
         const updated = await API.put(`/products/${editingProduct.id}`, formState);
         setProducts((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated.data : p))
         );
       } else {
+        // Crear
         const created = await API.post('/products', formState);
         setProducts((prev) => [...prev, created.data]);
       }
